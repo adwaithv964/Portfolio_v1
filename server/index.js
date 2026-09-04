@@ -72,6 +72,10 @@ validateConfig();
 
 const app = express();
 
+// Render (and most PaaS) sit behind a reverse proxy that sets X-Forwarded-For.
+// Trust exactly one hop so express-rate-limit can read the real client IP.
+app.set('trust proxy', 1);
+
 // =============================================================================
 // PHASE 1: Security headers
 // =============================================================================
