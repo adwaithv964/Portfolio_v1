@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.DS_Store
+
+# Admin credentials — NEVER commit
+.env
+.env.local
+.env.production
+server/.env
+server/generate-secrets.mjs
+
+# Sensitive docs — must never be served publicly
+public/Doc/
+
+# Server runtime data — not for source control
+server/data/backups/
+server/data/contact_messages.jsonl
+*.tmp
+

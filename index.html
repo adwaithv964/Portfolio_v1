@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--         SEO & Identity Meta Tags            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <title>Adwaith V | Full-Stack Developer &amp; Cyber Security Analyst</title>
+    <meta name="description" content="Adwaith V — Full-Stack Developer &amp; Cybersecurity Analyst. Creator of CyberSafeHub and Auralis. Building secure, scalable web applications." />
+    <meta name="keywords" content="Adwaith V, Full-Stack Developer, Cybersecurity Analyst, CyberSafeHub, Auralis, React, Node.js, Portfolio" />
+    <meta name="author" content="Adwaith V" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--         Open Graph (Social Sharing)         -->
+    <!-- ═══════════════════════════════════════════ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Adwaith V | Full-Stack Developer &amp; Cyber Security Analyst" />
+    <meta property="og:description" content="Building secure, scalable applications. Creator of CyberSafeHub and Auralis." />
+    <meta property="og:site_name" content="Adwaith V Portfolio" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--         HTTP Security Headers               -->
+    <!--   These are fallback meta-tag equivalents.  -->
+    <!--   Real headers are set in vite.config.js    -->
+    <!--   and public/_headers for production.       -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- Prevent MIME-type sniffing attacks -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <!-- Prevent clickjacking via iframe embedding -->
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+
+    <!-- Control referrer information sent with outbound links -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Content Security Policy (CSP)
+         Restricts what resources the browser is allowed to load.
+         Primary protection against XSS and data-injection attacks. -->
+    <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: blob:;
+        connect-src 'self';
+        object-src 'none';
+        frame-src 'none';
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self';
+        upgrade-insecure-requests;
+      "
+    />
+
+    <!-- Force HTTPS and prevent downgrade attacks (1 year) -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains" />
+
+    <!-- Disable browser features not used by this portfolio -->
+    <meta http-equiv="Permissions-Policy"
+      content="camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=()" />
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

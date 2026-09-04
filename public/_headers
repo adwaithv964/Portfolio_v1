@@ -1,0 +1,59 @@
+# ═══════════════════════════════════════════════════════
+# _headers — Adwaith V Portfolio Security Headers
+# ═══════════════════════════════════════════════════════
+# This file is used by Netlify, Vercel (via vercel.json),
+# and Cloudflare Pages to set HTTP response headers.
+# These are the REAL server-level headers (more powerful
+# than meta tags, which are client-side fallbacks only).
+# ═══════════════════════════════════════════════════════
+
+/*
+  # ── Clickjacking Protection ──────────────────────────
+  # Prevents this site from being embedded inside an iframe
+  # on another domain. Stops UI redress / clickjacking attacks.
+  X-Frame-Options: DENY
+
+  # ── MIME Sniffing Protection ─────────────────────────
+  # Forces the browser to respect the declared Content-Type.
+  # Prevents attackers from tricking browsers into executing
+  # a text file as JavaScript.
+  X-Content-Type-Options: nosniff
+
+  # ── Referrer Policy ──────────────────────────────────
+  # Controls what referrer info is sent when navigating away.
+  # 'strict-origin-when-cross-origin' = send full path for
+  # same-origin, only origin for cross-origin HTTPS requests.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # ── Permissions Policy ───────────────────────────────
+  # Disables browser features not used by this portfolio.
+  # Prevents malicious scripts from accessing camera, mic,
+  # location, payment APIs, etc.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=(), serial=()
+
+  # ── HTTP Strict Transport Security (HSTS) ────────────
+  # Forces all future requests to use HTTPS for 1 year.
+  # 'preload' opts into browser preload lists.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # ── Content Security Policy (CSP) ────────────────────
+  # Primary XSS protection. Whitelists which sources can
+  # provide scripts, styles, fonts, and images.
+  # 'unsafe-inline' is required for GSAP + Tailwind CSS.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+
+  # ── Cross-Origin Policies ────────────────────────────
+  # Prevents Spectre-style cross-origin data leaks.
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: same-origin
+
+  # ── Cache Control for HTML ────────────────────────────
+  # Don't cache HTML — always fetch fresh version.
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# ─── Long-lived cache for hashed static assets ───────────────────
+# Vite appends content hashes to JS/CSS filenames (e.g., main.a3f2b1.js).
+# These can be cached for 1 year because any change = new filename.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

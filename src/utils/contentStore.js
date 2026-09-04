@@ -1,0 +1,148 @@
+/**
+ * contentStore.js — Portfolio Content Management
+ * Reads/writes all portfolio section data to localStorage.
+ * Portfolio components call useContent() which falls back
+ * to these hardcoded defaults if no admin data exists.
+ */
+
+const CONTENT_KEY = 'av_portfolio_content';
+const CONTENT_VERSION = 1; // increment when schema changes
+
+// ─── Default Content (matches the current hardcoded portfolio) ────────────────
+export const DEFAULT_CONTENT = {
+  _version: CONTENT_VERSION,
+  hero: {
+    name: 'ADWAITH',
+    subtitle: 'DEV.SHIELD',
+    roleTagline: 'Full-Stack Developer & Cyber Security Analyst',
+    topBadge: 'TOP DEV',
+    description: 'Building robust full-stack applications, engineering secure cybersecurity platforms, and crafting immersive digital experiences with modern web technologies.',
+    techStack: 'React • Node.js • Python',
+    techBadge: 'Docker & CyberSec',
+    badgeLeft: 'FULL-STACK 4K',
+    badgeRight: 'CYBER SECURITY',
+    seasons: 'SEASONS 2023 - 2026',
+    coreStack: 'BSc Computer Science, CyberSafeHub Creator, Auralis Music Platform, Full-Stack & Cybersecurity Expert.',
+    ticker: 'ENGINEERED FOR SECURITY & SCALE',
+    version: 'PORTFOLIO RELEASE v1.0',
+    roles: [
+      'FEATURE FILM // FULL-STACK DEVELOPER',
+      'ORIGINAL SERIES // CYBER SECURITY ANALYST',
+      'BLOCKBUSTER // DISTRIBUTED SYSTEMS',
+      'ACCLAIMED // AI & ML ENGINEER',
+    ],
+  },
+  about: {
+    bio: 'I am <strong>Adwaith V</strong>, a BSc Computer Science student passionate about full-stack development and cybersecurity.',
+    paragraph2: 'My technical journey bridges secure software engineering with modern web architecture — building resilient platforms like CyberSafeHub and Auralis, and translating complex security logic into intuitive, high-performance interfaces.',
+    tags: ['Cyber Security', 'Full-Stack Development', 'Security Analysis'],
+    achievements: [
+      { text: 'Creator of <strong>CyberSafeHub</strong> — a full-stack cybersecurity platform with malware scanning & breach detection.' },
+      { text: 'Built <strong>Auralis</strong> — a modern music streaming platform with waveform visualization & crossfade engine.' },
+      { text: 'Proficient in <strong>React, Node.js, Python, MongoDB, PostgreSQL</strong> & cybersecurity tooling.' },
+    ],
+    techStack: ['React', 'Node.js', 'Python', 'MongoDB', 'PostgreSQL', 'Docker', 'Firebase', 'Web Audio API'],
+  },
+  expertise: [
+    {
+      number: '01',
+      title: 'Full-Stack Development',
+      text: 'Crafting responsive, high-fidelity user interfaces with React and building scalable backend APIs with Node.js, Express.js, and modern JavaScript ecosystems.',
+      tag: 'UI / UX & BACKEND',
+      gradient: 'from-[#1f0a0c] via-[#121212] to-[#0a0a0a]',
+    },
+    {
+      number: '02',
+      title: 'Cybersecurity Engineering',
+      text: 'Building production-grade security platforms with malware scanning (ClamAV), phishing detection, data breach monitoring (HIBP), threat intelligence APIs, and AES-256 encryption.',
+      tag: 'SECURITY & THREAT INTEL',
+      gradient: 'from-[#1a0809] via-[#111111] to-[#090909]',
+    },
+    {
+      number: '03',
+      title: 'Backend & API Architecture',
+      text: 'Architecting secure REST APIs, authentication pipelines with Firebase, and scalable database schemas across MongoDB and PostgreSQL for high-traffic applications.',
+      tag: 'API & ARCHITECTURE',
+      gradient: 'from-[#220a0d] via-[#131313] to-[#0a0a0a]',
+    },
+    {
+      number: '04',
+      title: 'AI & Audio Engineering',
+      text: 'Integrating LLM-powered cybersecurity assistants, NLP workflows, and engineering custom Web Audio API engines for rich, immersive streaming experiences.',
+      tag: 'AI & AUDIO',
+      gradient: 'from-[#1d090b] via-[#101010] to-[#080808]',
+    },
+  ],
+  skills: [
+    { title: 'Frontend Engineering', desc: 'Crafting responsive and interactive user interfaces using React, JavaScript, HTML5, CSS3, and Tailwind CSS.', tag: 'UI / INTERACTION', skills: ['React', 'JavaScript', 'Tailwind CSS', 'HTML5', 'CSS3'] },
+    { title: 'Backend & Databases', desc: 'Building secure REST APIs, authentication flows, and high-performance database architectures with Node.js, MongoDB, and PostgreSQL.', tag: 'ARCHITECTURE', skills: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Firebase'] },
+    { title: 'Cybersecurity', desc: 'Engineering security platforms with malware analysis, phishing detection, breach monitoring, threat intelligence APIs, and AES-256 encryption.', tag: 'SECURITY', skills: ['ClamAV', 'VirusTotal API', 'HIBP', 'AES-256', 'Firebase Auth'] },
+    { title: 'AI & Audio Engineering', desc: 'Integrating LLM cybersecurity assistants, NLP workflows, and Web Audio API engines with crossfade, EQ, and waveform visualization.', tag: 'AI & AUDIO', skills: ['Python', 'NLP', 'LLMs', 'Web Audio API', 'Zustand'] },
+    { title: 'Cloud & DevOps', desc: 'Deploying and scaling production applications using Docker, GitHub Actions CI/CD, and cloud hosting services.', tag: 'INFRASTRUCTURE', skills: ['Docker', 'GitHub Actions', 'CI/CD', 'Render', 'Docker Hub'] },
+    { title: 'Tools & Ecosystem', desc: 'Equipped with industry-grade instruments for version control, state management, productivity, and workflow automation.', tag: 'PRODUCTIVITY', skills: ['Git', 'Zustand', 'Sass', 'VS Code', 'Postman'] },
+  ],
+  projects: [
+    { title: 'CyberSafeHub', category: 'Cybersecurity Platform', description: 'Full-stack cybersecurity platform integrating malware scanning, phishing detection, IP/DNS analysis, breach monitoring, secure password management, and an AI cybersecurity assistant.', tags: ['React', 'Node.js', 'MongoDB', 'Firebase Auth', 'VirusTotal API'], match: '100%', episode: 'S01 E01' },
+    { title: 'Auralis', category: 'Music Streaming App', description: 'Modern music streaming web app with synchronized lyrics, crossfade engine, waveform visualization, EQ controls, queue management, and a glassmorphism-based interface.', tags: ['React', 'Node.js', 'MongoDB', 'Web Audio API', 'Zustand'], match: '99%', episode: 'S01 E02' },
+    { title: 'AI Cybersecurity Assistant', category: 'Artificial Intelligence', description: 'Intelligent conversational assistant embedded in CyberSafeHub, specialized in cybersecurity guidance, threat analysis, and security best practices using LLM workflows.', tags: ['Python', 'Node.js', 'NLP', 'REST APIs', 'MongoDB'], match: '97%', episode: 'S01 E03' },
+    { title: 'Breach Detection Engine', category: 'Security Infrastructure', description: 'Automated data-breach monitoring system integrating Have I Been Pwned (HIBP) API with real-time alerts and AES-256 encrypted password vault management.', tags: ['Node.js', 'AES-256', 'HIBP API', 'Express', 'MongoDB'], match: '98%', episode: 'S01 E04' },
+    { title: 'Malware & Phishing Scanner', category: 'Threat Detection', description: 'Multi-engine threat analysis system combining ClamAV antivirus and VirusTotal API for URL, file, and domain scanning with detailed threat reporting.', tags: ['ClamAV', 'VirusTotal', 'Node.js', 'Express', 'React'], match: '96%', episode: 'S01 E05' },
+    { title: 'Auralis Music Engine', category: 'Audio Engineering', description: 'Custom HTML5 + Web Audio API music engine with track preloading, crossfade transitions, EQ, and smooth playback optimized for low-bandwidth connections.', tags: ['Web Audio API', 'JavaScript', 'HTML5 Audio', 'React', 'Zustand'], match: '99%', episode: 'S01 E06' },
+    { title: 'Portfolio Cinematics v1.0', category: 'UI/UX & Animation', description: 'Netflix-inspired dark studio interactive portfolio featuring GSAP cinematic physics, 3D card interactions, and responsive layouts.', tags: ['React', 'GSAP', 'Tailwind CSS', 'Framer Motion'], match: '100%', episode: 'S01 E07' },
+    { title: 'Firebase Auth Integration', category: 'Authentication & Security', description: 'Production-grade Firebase Authentication pipeline powering CyberSafeHub with secure sign-in, session management, and role-based access control.', tags: ['Firebase', 'Node.js', 'React', 'Express', 'JWT'], match: '98%', episode: 'S01 E08' },
+  ],
+  footer: {
+    github: 'https://github.com/adwaithv964',
+    linkedin: 'https://www.linkedin.com/in/adwaith-v-87990226b',
+    email: 'cybershield929@gmail.com',
+    location: 'KERALA, INDIA',
+    copyright: 'Adwaith V',
+  },
+};
+
+// ─── Read content from localStorage ──────────────────────────────────────────
+export function readContent() {
+  try {
+    const raw = localStorage.getItem(CONTENT_KEY);
+    if (!raw) return DEFAULT_CONTENT;
+    const parsed = JSON.parse(raw);
+    // Version mismatch — return defaults (schema changed)
+    if (parsed._version !== CONTENT_VERSION) return DEFAULT_CONTENT;
+    // Deep merge: defaults first, then override with saved content
+    return deepMerge(DEFAULT_CONTENT, parsed);
+  } catch {
+    return DEFAULT_CONTENT;
+  }
+}
+
+// ─── Write entire content object to localStorage ──────────────────────────────
+export function writeContent(content) {
+  try {
+    localStorage.setItem(CONTENT_KEY, JSON.stringify({ ...content, _version: CONTENT_VERSION }));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ─── Write a single section ───────────────────────────────────────────────────
+export function writeSection(sectionKey, sectionData) {
+  const current = readContent();
+  return writeContent({ ...current, [sectionKey]: sectionData });
+}
+
+// ─── Reset all content to defaults ───────────────────────────────────────────
+export function resetContent() {
+  localStorage.removeItem(CONTENT_KEY);
+}
+
+// ─── Deep merge utility ───────────────────────────────────────────────────────
+function deepMerge(defaults, overrides) {
+  if (typeof overrides !== 'object' || overrides === null) return overrides ?? defaults;
+  if (Array.isArray(overrides)) return overrides; // Arrays are replaced, not merged
+  const result = { ...defaults };
+  for (const key of Object.keys(overrides)) {
+    result[key] = deepMerge(defaults[key], overrides[key]);
+  }
+  return result;
+}
