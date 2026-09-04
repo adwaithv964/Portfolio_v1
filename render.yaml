@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # All secrets below are entered manually in the Render dashboard.
+      # sync: false means Render will NOT read these from this file.
+      - key: ADMIN_BCRYPT_HASH
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: ADMIN_SECRET_PATH
+        sync: false
